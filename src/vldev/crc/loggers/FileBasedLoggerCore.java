@@ -37,7 +37,7 @@ public class FileBasedLoggerCore implements ILoggerCore {
     private void log(String logType, String msg) {
         synchronized (lock) {
             Date now = new Date();
-            File logFile = new File(logDir, logType + "-" + sdfLogFileName.format(now));
+            File logFile = new File(logDir, logType + "-" + sdfLogFileName.format(now) + ".txt");
             FileWriter fw = null;
             try {
                 if (!logFile.exists()) {
