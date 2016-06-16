@@ -1,5 +1,8 @@
 package vldev.crc;
 
+import vldev.crc.loggers.ConsoleLoggerCore;
+import vldev.crc.loggers.FileBasedLoggerCore;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,6 +10,9 @@ import java.io.InputStreamReader;
 public class ClientMain {
 
     public static void main(String[] args) {
+        Logger.installLoggerCore(new ConsoleLoggerCore());
+        Logger.installLoggerCore(new FileBasedLoggerCore("client-logs"));
+
         Client client = new Client();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

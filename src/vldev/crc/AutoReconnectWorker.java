@@ -46,9 +46,9 @@ public class AutoReconnectWorker implements Runnable {
 
     @Override
     public void run() {
-        while (running && (client.getStatus() != Client.STATUS_CONNECTED)) {
+        while (running && client.getStatus() != Client.STATUS_CONNECTED) {
             try {
-                if (client.getStatus() != Client.STATUS_CONNECTING) {
+                if (client.getStatus() != Client.STATUS_CONNECTING && client.getStatus() != Client.STATUS_CONNECTED) {
                     Logger.info("reconnecting...");
                     client.connect();
                 }
@@ -57,7 +57,7 @@ public class AutoReconnectWorker implements Runnable {
             }
             try {
                 synchronized (wait) {
-                    if (!(running && (client.getStatus() != Client.STATUS_CONNECTED))) return;
+                    if (!(running && (client.getStatus() != Client.STATUS_CONNECTED))) break;
                     wait.wait(interval);
                 }
             } catch (InterruptedException ignored) {

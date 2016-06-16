@@ -20,7 +20,7 @@ public class Client implements SendDataWorker.Callback, ReceiveDataWorker.Callba
     private boolean autoReconnect = true;
 
     public Client() {
-        autoReconnectWorker = new AutoReconnectWorker(this, 5000);
+        autoReconnectWorker = new AutoReconnectWorker(this, 10000);
     }
 
     public int getStatus() {

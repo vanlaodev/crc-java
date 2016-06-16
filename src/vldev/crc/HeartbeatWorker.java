@@ -48,7 +48,7 @@ public class HeartbeatWorker implements Runnable {
             sendDataWorker.send("heartbeat\r\n");
             try {
                 synchronized (wait) {
-                    if (!running) return;
+                    if (!running) break;
                     wait.wait(interval);
                 }
             } catch (InterruptedException ignored) {
