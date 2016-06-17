@@ -10,23 +10,25 @@ public class SendDataWorker implements Runnable {
 
     private final Object lock = new Object();
     private final Queue<String> queue = new ConcurrentLinkedQueue<String>();
-    private final OutputStream os;
+    private final Socket socket;
+    private OutputStream os;
     private volatile boolean running;
     private Thread workerThread;
     private Callback callback;
 
-    public SendDataWorker(Socket socket) throws IOException {
-        this.os = socket.getOutputStream();
+    public SendDataWorker(Socket socket) {
+        this.socket = socket;
     }
 
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
 
-    public void start() {
+    public void start() throws IOException {
         if (running) return;
         synchronized (lock) {
             if (running) return;
+            os = socket.getOutputStream();
             running = true;
             workerThread = new Thread(this);
             workerThread.start();

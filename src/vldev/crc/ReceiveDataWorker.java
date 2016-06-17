@@ -7,24 +7,26 @@ import java.net.Socket;
 public class ReceiveDataWorker implements Runnable {
 
     private final Object lock = new Object();
-    private final InputStream is;
     private final byte[] buffer = new byte[1024];
+    private final Socket socket;
+    private InputStream is;
     private volatile boolean running;
     private Thread workerThread;
     private Callback callback;
 
-    public ReceiveDataWorker(Socket socket) throws IOException {
-        is = socket.getInputStream();
+    public ReceiveDataWorker(Socket socket) {
+        this.socket = socket;
     }
 
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
 
-    public void start() {
+    public void start() throws IOException {
         if (running) return;
         synchronized (lock) {
             if (running) return;
+            is = socket.getInputStream();
             running = true;
             workerThread = new Thread(this);
             workerThread.start();
