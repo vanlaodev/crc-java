@@ -48,14 +48,14 @@ public class SendDataWorker implements Runnable {
                 try {
                     os.close();
                 } catch (IOException e) {
-                    Logger.error(e);
+                    Logger.error(socket, e);
                 }
             }
             if (workerThread != null && !workerThread.equals(Thread.currentThread())) {
                 try {
                     workerThread.join();
                 } catch (InterruptedException e) {
-                    Logger.error(e);
+                    Logger.error(socket, e);
                 }
             }
         }
@@ -82,7 +82,7 @@ public class SendDataWorker implements Runnable {
                             dataToBeSent = queue.remove();
                         }
                     } catch (InterruptedException e) {
-                        Logger.error(e);
+                        Logger.error(socket, e);
                     }
                 } else {
                     dataToBeSent = queue.remove();
@@ -93,7 +93,7 @@ public class SendDataWorker implements Runnable {
                     os.write(dataToBeSent.getBytes());
                     os.flush();
                 } catch (IOException e) {
-                    Logger.error(e);
+                    Logger.error(socket, e);
                     if (callback != null) {
                         callback.onSendDataError(e);
                     }

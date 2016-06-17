@@ -42,14 +42,14 @@ public class ReceiveDataWorker implements Runnable {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    Logger.error(e);
+                    Logger.error(socket, e);
                 }
             }
             if (workerThread != null && !workerThread.equals(Thread.currentThread())) {
                 try {
                     workerThread.join();
                 } catch (InterruptedException e) {
-                    Logger.error(e);
+                    Logger.error(socket, e);
                 }
             }
         }
@@ -67,7 +67,7 @@ public class ReceiveDataWorker implements Runnable {
                     callback.onDataReceived(new String(buffer, 0, count));
                 }
             } catch (IOException e) {
-                Logger.error(e);
+                Logger.error(socket, e);
                 if (callback != null) {
                     callback.onReceiveDataError(e);
                 }

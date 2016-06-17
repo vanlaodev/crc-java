@@ -17,7 +17,7 @@ public class ServerClient implements SendDataWorker.Callback, ReceiveDataWorker.
     private volatile int status;
 
     public ServerClient(Server server, Socket socket) throws IOException {
-        Logger.info("client connected " + socket.getRemoteSocketAddress());
+        Logger.info(socket, "client connected ");
 
         status = STATUS_CONNECTED;
 
@@ -57,9 +57,9 @@ public class ServerClient implements SendDataWorker.Callback, ReceiveDataWorker.
                 }
                 socket.close();
                 server.removeClient(this);
-                Logger.info("client disconnected " + socket.getRemoteSocketAddress());
+                Logger.info(socket, "client disconnected ");
             } catch (IOException e) {
-                Logger.error(e);
+                Logger.error(socket, e);
             }
         }
     }
@@ -75,7 +75,7 @@ public class ServerClient implements SendDataWorker.Callback, ReceiveDataWorker.
 
     @Override
     public void onDataReceived(String data) {
-        Logger.info("data received: " + data.replace("\r\n", ""));
+        Logger.info(socket, "data received: " + data.replace("\r\n", ""));
     }
 
     @Override
